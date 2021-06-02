@@ -1,4 +1,4 @@
-## Dev config instructions
+## Dev install steps
 
 ### Install virtualenvwrapper
 ```
