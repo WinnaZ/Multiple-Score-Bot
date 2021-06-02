@@ -1,6 +1,6 @@
-# Dev config instructions
+## Dev config instructions
 
-# Install virtualenvwrapper
+### Install virtualenvwrapper
 ```
 pip3 install virtualenvwrapper
 ```
@@ -12,7 +12,7 @@ export PROJECT_HOME=$HOME/Devel
 source /usr/local/bin/virtualenvwrapper.sh
 ```
 
-# Create the virtualenv
+### Create the virtualenv
 ```
 mkvirtualenv multiple_score_bot
 ```
@@ -21,7 +21,7 @@ mkvirtualenv multiple_score_bot
 workon multiple_score_bot
 ```
 
-# Install dependencies dependency
+### Install dependencies dependency
 ```
 pip3 install -r requirements.txt
 ```
