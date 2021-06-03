@@ -53,16 +53,17 @@ def register(update, context):
     """
 
     default = {
-        "WinnaZ": 0,
-        "MarceloPedraza": 0
+        "Zoe": 0,
+        "Marce": 0
     }
+
     # Loads the previous data into our dict
     with open('score_board.json') as json_file:
         score_board = json.load(json_file)
 
     parameters = update.message.text.split()
-    game = parameters[1]
-    winner = parameters[2]
+    game = parameters[1].capitalize()
+    winner = parameters[2].capitalize()
 
     if game in score_board:
         score_board[game][winner] = score_board[game][winner] + 1
