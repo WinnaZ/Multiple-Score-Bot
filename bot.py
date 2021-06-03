@@ -47,7 +47,7 @@ def _dictToString(dicto):
     return "No hay partidas."
 
 
-def register(update, context):
+def register_game(update, context):
     """registers a play in the score_board.json
         ex score_board = {
                         "Game": {
@@ -129,7 +129,7 @@ def main():
     dp.add_handler(CommandHandler("Start", start))
     dp.add_handler(CommandHandler("Help", help))
 
-    dp.add_handler(CommandHandler("registrar", register, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
+    dp.add_handler(CommandHandler("partida", register_game, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
     dp.add_handler(CommandHandler("como_vamos", show_score_board, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
     dp.add_handler(CommandHandler("borrar_juego", delete_game, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
     # on noncommand i.e message - echo the message on Telegram
