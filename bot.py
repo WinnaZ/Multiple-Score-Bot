@@ -39,8 +39,11 @@ def help(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
-def _dictToString(dict):
-  return str(dict).replace(', ','\r\n').replace('}','\r\n').replace("u'","").replace("'","").replace(': {','\r\n')[1:-1]
+def _dictToString(dicto):
+  if dicto:
+    return str(dicto).replace(', ','\r\n').replace('}','\r\n').replace("u'","").replace("'","").replace(': {','\r\n')[1:-1]
+  else:
+    return "No hay partidas."
 
 def register(update, context):
     """registers a play in the score_board.json
@@ -64,9 +67,9 @@ def register(update, context):
     parameters = update.message.text.split()
     game = parameters[1].capitalize()
     winner = parameters[2].capitalize()
-    if winner not in ["Zoe","Marce"]:
+    if winner not in default.keys():
         update.message.reply_text("No te conozco...")
-        exit
+        return
     
     if game in score_board:
         score_board[game][winner] = score_board[game][winner] + 1
@@ -85,6 +88,20 @@ def show_score_board(update, context):
         score_board = json.load(json_file)
 
     update.message.reply_text(_dictToString(score_board))
+
+def delete_game(update, context):
+    with open('score_board.json') as json_file:
+        score_board = json.load(json_file)
+    parameters = update.message.text.split()
+    game = parameters[1].capitalize()
+    if game not in score_board.keys():
+        update.message.reply_text("No existe ese juego.")
+        
+    score_board.pop(game,None)
+
+    with open("score_board.json", "w") as jsonFile:
+        json.dump(score_board, jsonFile)
+    show_score_board(update,context)
 
 def echo(update, context):
     """Echo the user message."""
@@ -110,9 +127,9 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
 
-    dp.add_handler(CommandHandler("register", register))
-    dp.add_handler(CommandHandler("score_board", show_score_board))
-
+    dp.add_handler(CommandHandler("registrar", register))
+    dp.add_handler(CommandHandler("como_vamos", show_score_board))
+    dp.add_handler(CommandHandler("borrar_juego", delete_game))
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
 
