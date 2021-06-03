@@ -37,7 +37,14 @@ def start(update, context):
 
 def help(update, context):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
+    update.message.reply_text(
+        """
+        Comandos Disponibles:
+        partida - Registra una nueva partida. Formato: /partida nombre_juego  ganadore
+        como_vamos - Muestra el puntaje de cada juego.
+        borrar_juego - Borra un juego. Formato: /borrar_juego nombre_juego
+        """
+    )
 
 
 def _dictToString(dicto):
