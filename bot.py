@@ -40,7 +40,7 @@ def help(update, context):
     update.message.reply_text('Help!')
 
 def _dictToString(dict):
-  return str(dict).replace(', ','\r\n').replace("u'","").replace("'","")[1:-1]
+  return str(dict).replace(', ','\r\n').replace('}','\r\n').replace("u'","").replace("'","").replace(': {','\r\n')[1:-1]
 
 def register(update, context):
     """registers a play in the score_board.json
@@ -75,8 +75,13 @@ def register(update, context):
     with open("score_board.json", "w") as jsonFile:
         json.dump(score_board, jsonFile)
 
-    update.message.reply_text(game)
-    update.message.reply_text(_dictToString(score_board[game]))
+    update.message.reply_text(game + '\r\n' + _dictToString(score_board[game]))
+
+def show_score_board(update, context):
+    with open('score_board.json') as json_file:
+        score_board = json.load(json_file)
+
+    update.message.reply_text(_dictToString(score_board))
 
 def echo(update, context):
     """Echo the user message."""
@@ -101,7 +106,9 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
+
     dp.add_handler(CommandHandler("register", register))
+    dp.add_handler(CommandHandler("score_board", show_score_board))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
