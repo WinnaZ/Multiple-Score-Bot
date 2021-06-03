@@ -64,7 +64,10 @@ def register(update, context):
     parameters = update.message.text.split()
     game = parameters[1].capitalize()
     winner = parameters[2].capitalize()
-
+    if winner not in ["Zoe","Marce"]:
+        update.message.reply_text("No te conozco...")
+        exit
+    
     if game in score_board:
         score_board[game][winner] = score_board[game][winner] + 1
     else:
