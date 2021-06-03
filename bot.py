@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # This program is dedicated to the public domain under the CC0 license.
+import json
 from secret import TOKEN
 
 """
@@ -38,6 +39,43 @@ def help(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
+def _dictToString(dict):
+  return str(dict).replace(', ','\r\n').replace("u'","").replace("'","")[1:-1]
+
+def register(update, context):
+    """registers a play in the score_board.json
+        ex score_board = {
+                        "Game": {
+                            "gamer1": score
+                            "gamer2": score
+                             }
+                        }
+    """
+
+    default = {
+        "WinnaZ": 0,
+        "MarceloPedraza": 0
+    }
+    # Loads the previous data into our dict
+    with open('score_board.json') as json_file:
+        score_board = json.load(json_file)
+
+    parameters = update.message.text.split()
+    game = parameters[1]
+    winner = parameters[2]
+
+    if game in score_board:
+        score_board[game][winner] = score_board[game][winner] + 1
+    else:
+        score_board[game] = default
+        score_board[game][winner] = 1
+
+    # Saved modified dict to the file
+    with open("score_board.json", "w") as jsonFile:
+        json.dump(score_board, jsonFile)
+
+    update.message.reply_text(game)
+    update.message.reply_text(_dictToString(score_board[game]))
 
 def echo(update, context):
     """Echo the user message."""
@@ -62,6 +100,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("register", register))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
