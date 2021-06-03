@@ -39,3 +39,8 @@ Thumbs.db
 #secrets#
 #########
 secret.py
+
+
+#local files#
+#############
+score_board.json
