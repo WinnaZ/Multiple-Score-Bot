@@ -39,11 +39,13 @@ def help(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
+
 def _dictToString(dicto):
   if dicto:
     return str(dicto).replace(', ','\r\n').replace('}','\r\n').replace("u'","").replace("'","").replace(': {','\r\n')[1:-1]
   else:
     return "No hay partidas."
+
 
 def register(update, context):
     """registers a play in the score_board.json
@@ -70,7 +72,7 @@ def register(update, context):
     if winner not in default.keys():
         update.message.reply_text("No te conozco...")
         return
-    
+
     if game in score_board:
         score_board[game][winner] = score_board[game][winner] + 1
     else:
@@ -96,7 +98,7 @@ def delete_game(update, context):
     game = parameters[1].capitalize()
     if game not in score_board.keys():
         update.message.reply_text("No existe ese juego.")
-        
+
     score_board.pop(game,None)
 
     with open("score_board.json", "w") as jsonFile:
@@ -124,12 +126,12 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("Start", start))
+    dp.add_handler(CommandHandler("Help", help))
 
-    dp.add_handler(CommandHandler("registrar", register))
-    dp.add_handler(CommandHandler("como_vamos", show_score_board))
-    dp.add_handler(CommandHandler("borrar_juego", delete_game))
+    dp.add_handler(CommandHandler("registrar", register, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
+    dp.add_handler(CommandHandler("como_vamos", show_score_board, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
+    dp.add_handler(CommandHandler("borrar_juego", delete_game, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
 
