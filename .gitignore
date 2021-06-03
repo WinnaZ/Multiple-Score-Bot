@@ -43,4 +43,4 @@ secret.py
 
 #local files#
 #############
-score_board.json
+*.json
