@@ -44,3 +44,4 @@ secret.py
 #local files#
 #############
 *.json
+__pycache__
