@@ -37,7 +37,15 @@ def start(update, context):
 
 def help(update, context):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
+    update.message.reply_text(
+        """
+        Comandos Disponibles:
+        partida - Registra una nueva partida. Formato: /partida nombre_juego  ganadore
+        como_vamos - Muestra el puntaje de cada juego.
+        borrar_juego - Borra un juego. Formato: /borrar_juego nombre_juego
+        """
+    )
+
 
 def _dictToString(dicto):
   if dicto:
@@ -45,7 +53,8 @@ def _dictToString(dicto):
   else:
     return "No hay partidas."
 
-def register(update, context):
+
+def register_game(update, context):
     """registers a play in the score_board.json
         ex score_board = {
                         "Game": {
@@ -70,7 +79,7 @@ def register(update, context):
     if winner not in default.keys():
         update.message.reply_text("No te conozco...")
         return
-    
+
     if game in score_board:
         score_board[game][winner] = score_board[game][winner] + 1
     else:
@@ -96,7 +105,7 @@ def delete_game(update, context):
     game = parameters[1].capitalize()
     if game not in score_board.keys():
         update.message.reply_text("No existe ese juego.")
-        
+
     score_board.pop(game,None)
 
     with open("score_board.json", "w") as jsonFile:
@@ -124,12 +133,12 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("Start", start))
+    dp.add_handler(CommandHandler("Help", help))
 
-    dp.add_handler(CommandHandler("registrar", register))
-    dp.add_handler(CommandHandler("como_vamos", show_score_board))
-    dp.add_handler(CommandHandler("borrar_juego", delete_game))
+    dp.add_handler(CommandHandler("partida", register_game, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
+    dp.add_handler(CommandHandler("como_vamos", show_score_board, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
+    dp.add_handler(CommandHandler("borrar_juego", delete_game, Filters.user(username={"@WinnaZ","@MarceloPedraza"})))
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
 
