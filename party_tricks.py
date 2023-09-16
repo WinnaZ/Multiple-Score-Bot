@@ -14,7 +14,7 @@ def choose_mock():
            'jaaaaa pelotudo', 
            'try again next time', 
            'sssssssss', 
-           'te quiero aunque seas un perdedor cronico']
+           'te quiero aunque seas un perdedor cronico',]
     
     return secrets.choice(foo)
 

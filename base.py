@@ -46,7 +46,8 @@ async def help(update, context):
             partida - Registra una nueva partida. Formato: /partida nombre_juego  ganadore
             como_vamos - Muestra el puntaje de cada juego.
             borrar_juego - Borra un juego. Formato: /borrar_juego nombre_juego
-            burlarse - Se burla de un jugador. Formato: es /burlarse username_jugador"
+            burlarse - Se burla de un jugador. Formato: /burlarse username_jugador
+            ping - Pingea a otro jugador con un 🟦. Formato: /ping username_jugador 
             """
             )
 
