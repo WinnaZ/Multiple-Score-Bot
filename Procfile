@@ -1,1 +1,1 @@
-<score-bot run>: <python boy.py>
+run-bot: python boy.py
