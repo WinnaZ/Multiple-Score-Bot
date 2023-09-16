@@ -1,1 +1,1 @@
-run-bot: python boy.py
+web: python boy.py
